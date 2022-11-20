@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+</head>
+<body>
+<div id="www">
+    欢迎{{.username}}
+</div>
+<div id="root">
+    <p>*********************************** </p>
+    <button @click="get1">打包</button>
+    <br/>
+    <p>${message}</p>
+    <p>${info}</p>
+
+
+</div>
+
+<script type="text/javascript">
+    let vm = new Vue({
+        delimiters: ['${', '}'],
+        el: "#root",
+        data: {
+            message: "点击打包，执行结果会有延迟",
+            info: "等待执行结果"
+        },
+        methods: {
+            get1: function () {
+                axios.get("http://127.0.0.1:8080/dobuild")
+                    .then(res => {
+                        console.log(res.data.message);
+                        this.message = res.data.message;
+                        this.info = res.data.info;
+                    })
+                    .catch(error => {
+                        alert("构建失败", error)
+                    })
+
+            }
+
+        }
+    })
+</script>
+
+</body>
+</html>
